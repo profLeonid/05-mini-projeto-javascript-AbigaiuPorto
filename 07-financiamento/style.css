@@ -17,6 +17,7 @@ body {
   max-width: 720px;
 }
 
+/* LINK VOLTAR */
 a {
   color: #6b7280;
   font-size: 0.875rem;
@@ -29,6 +30,7 @@ a:hover {
   color: #facc15;
 }
 
+/* TÍTULO */
 h1 {
   color: white;
   font-size: 2.25rem;
@@ -48,6 +50,7 @@ p {
   margin-bottom: 40px;
 }
 
+/* GRID */
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -59,6 +62,7 @@ p {
   margin-bottom: 0;
 }
 
+/* LABEL */
 label {
   display: block;
   color: #9ca3af;
@@ -68,6 +72,7 @@ label {
   margin-bottom: 8px;
 }
 
+/* INPUT */
 input {
   width: 100%;
   background: transparent;
@@ -76,12 +81,23 @@ input {
   font-size: 1rem;
   padding: 12px 16px;
   outline: none;
+  transition: 0.2s;
 }
 
-input:focus {
+/* FOCUS só em campos editáveis */
+input:focus:not([readonly]) {
   border-color: #facc15;
 }
 
+/* INPUT BLOQUEADO */
+input[readonly] {
+  background-color: #111827;
+  color: #6b7280;
+  border-color: #1f2937;
+  cursor: not-allowed;
+}
+
+/* BOTÃO */
 button {
   width: 100%;
   background: #facc15;
@@ -94,12 +110,15 @@ button {
   border: none;
   cursor: pointer;
   margin-bottom: 32px;
+  transition: 0.2s;
 }
 
 button:hover {
   background: #fde047;
+  transform: scale(1.01);
 }
 
+/* RESULTADO */
 .resultado {
   border: 1px solid #374151;
   padding: 24px;
@@ -114,6 +133,7 @@ button:hover {
   margin-bottom: 16px;
 }
 
+/* TABELA */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -138,10 +158,17 @@ thead th:not(:first-child) {
   text-align: right;
 }
 
+/* LINHAS */
 tbody tr {
   border-bottom: 1px solid #1f2937;
+  transition: 0.2s;
 }
 
+tbody tr:hover {
+  background-color: #111827;
+}
+
+/* CÉLULAS */
 tbody td {
   padding: 12px 0;
   font-size: 0.95rem;
@@ -151,6 +178,16 @@ tbody td:not(:first-child) {
   text-align: right;
 }
 
-.col-juros { color: #f87171; }
-.col-total { color: #facc15; font-weight: 700; }
-.col-saldo { color: #d1d5db; }
+/* CORES DAS COLUNAS */
+.col-juros { 
+  color: #f87171; 
+}
+
+.col-total { 
+  color: #facc15; 
+  font-weight: 700; 
+}
+
+.col-saldo { 
+  color: #d1d5db; 
+}

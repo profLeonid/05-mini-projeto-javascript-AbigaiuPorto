@@ -2,37 +2,101 @@
 
 function simularFinanciamento(){
 
-    const total = parseFloat(document.getElementById('total').value)
-    const taxa = parseFloat(document.getElementById('juros').value) / 100
-    const parcelas = parseInt(document.getElementById('numero-parcela').value)
-    const parcela = parseFloat(document.getElementById('valor-parcela').value)
+  const totalInput = document.getElementById('total')
+  const jurosInput = document.getElementById('juros')
+  const parcelasInput = document.getElementById('numero-parcela')
+  const valorParcelaInput = document.getElementById('valor-parcela')
+  const tabela = document.getElementById('tabela')
 
-    const tabela = document.getElementById('tabela')
+  const total = parseFloat(totalInput.value)
+  const taxa = parseFloat(jurosInput.value) / 100
+  const parcelas = parseInt(parcelasInput.value)
 
-    let saldoDevedor = total
+  // validação
+  if (!total || !taxa || !parcelas) {
+    alert('Preencha todos os campos corretamente!')
+    return
+  }
 
+  // limpa tabela (sem innerHTML)
+  while (tabela.firstChild) {
+    tabela.removeChild(tabela.firstChild)
+  }
 
-    tabela.innerHTML = ""
+  let saldoDevedor = total
 
-    for(let mes = 1; mes <= parcelas; mes++){
+  // cálculo da parcela (simples)
+  const parcela = total / parcelas
+  valorParcelaInput.value = parcela.toFixed(2)
 
-        const jurosMes = saldoDevedor * taxa
+  for(let mes = 1; mes <= parcelas; mes++){
 
-        const totalMes = parcela + jurosMes
+    const jurosMes = saldoDevedor * taxa
+    const totalMes = parcela + jurosMes
 
-        const saldoFinal = saldoDevedor + jurosMes - parcela
+    saldoDevedor -= parcela
 
-        tabela.innerHTML += `
-        <tr>
-            <td>${mes}</td>
-            <td>R$ ${jurosMes.toFixed(2)}</td>
-            <td>R$ ${parcela.toFixed(2)}</td>
-            <td>R$ ${totalMes.toFixed(2)}</td>
-            <td>R$ ${saldoFinal.toFixed(2)}</td>
-        </tr>
-        `
+    const novaLinha = document.createElement('tr')
 
-        saldoDevedor = saldoFinal
-    }
+    const celulaMes = document.createElement('td')
+    const celulaJuros = document.createElement('td')
+    const celulaParcela = document.createElement('td')
+    const celulaTotalMes = document.createElement('td')
+    const celulaSaldo = document.createElement('td')
 
+    // classes
+    celulaJuros.classList.add('col-juros')
+    celulaTotalMes.classList.add('col-total')
+    celulaSaldo.classList.add('col-saldo')
+
+    // conteúdo
+    celulaMes.textContent = mes
+
+    celulaJuros.textContent = jurosMes.toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    })
+
+    celulaParcela.textContent = parcela.toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    })
+
+    celulaTotalMes.textContent = totalMes.toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    })
+
+    celulaSaldo.textContent = saldoDevedor.toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    })
+
+    // montar linha
+    novaLinha.appendChild(celulaMes)
+    novaLinha.appendChild(celulaJuros)
+    novaLinha.appendChild(celulaParcela)
+    novaLinha.appendChild(celulaTotalMes)
+    novaLinha.appendChild(celulaSaldo)
+
+    tabela.appendChild(novaLinha)
+  }
+}
+
+function limparSimulacao(){
+
+  const total = document.getElementById('total')
+  const juros = document.getElementById('juros')
+  const parcelas = document.getElementById('numero-parcela')
+  const valorParcela = document.getElementById('valor-parcela')
+  const tabela = document.getElementById('tabela')
+
+  // limpa inputs
+  total.value = ''
+  juros.value = ''
+  parcelas.value = ''
+  valorParcela.value = ''
+
+  // limpa tabela sem usar innerHTML
+  tabela.replaceChildren()
 }
